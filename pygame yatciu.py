@@ -18,7 +18,6 @@ FONT = pygame.font.SysFont("arial", 24)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Yacht Game - Pygame Version")
 
-
 dice = [random.randint(1, 6) for _ in range(5)]
 dice_locked = [False] * 5
 reroll_count = 3
@@ -36,7 +35,7 @@ used_categories = {}
 dice_rects = [pygame.Rect(300 + i * 70, 400, 50, 50) for i in range(5)]
 
 
-category_buttons = [pygame.Rect(50, 0 + i * 30, 200, 25) for i in range(len(categories))]
+category_buttons = [pygame.Rect(50, 100 + i * 30, 200, 25) for i in range(len(categories))]
 
 
 def draw_text(text, x, y, color=BLACK):
@@ -90,17 +89,19 @@ while running:
 
     for i in range(5):
             if dice_locked[i]:
-                pygame.draw.rect(screen, RED, dice_rects[i], 4)
-                draw_text(dice[i], dice_rects[i].x + 30, dice_rects[i].y + 25) 
+                image=pygame.image.load("lock6 ({}).png".format(dice[i]))
+                image = pygame.transform.scale(image, (50, 50))
+                screen.blit(image, (dice_rects[i].x, dice_rects[i].y))
             else:
-                pygame.draw.rect(screen, BLACK, dice_rects[i], 2) 
-                draw_text(dice[i], dice_rects[i].x + 30, dice_rects[i].y + 25)
+                image=pygame.image.load("pixil-frame-0 ({}).png".format(dice[i]))
+                image = pygame.transform.scale(image, (50, 50))
+                screen.blit(image, (dice_rects[i].x, dice_rects[i].y))
 
 
     for i, cat in enumerate(categories):
         color = RED if cat in used_categories else GRAY
-        pygame.draw.rect(screen, color, category_buttons[i])
-        draw_text(cat, category_buttons[i].x + 5, category_buttons[i].y + 3)
+        pygame.draw.rect(screen, color, category_buttons[i], border_radius=8) 
+        draw_text(cat, category_buttons[i].x + 5, category_buttons[i].y + 2)
 
 
     draw_text(f"Reroll: {reroll_count}", 600, 100)
